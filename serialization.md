@@ -7,10 +7,11 @@ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 -->
+# Serialization
 
-_Serialization_ refers to converting a data element in your Flink program to/from a message in a Pravega stream.
+ Converting a data element in your Flink program to/from a message in a Pravega Stream is referred as **Serialization**.
 
-Flink defines a standard interface for data serialization to/from byte messages delivered by various connectors.  The core interfaces are:
+Flink defines a standard interface for data serialization to/from byte messages delivered by various connectors. The core interfaces are:
 - [`org.apache.flink.streaming.util.serialization.SerializationSchema`](https://ci.apache.org/projects/flink/flink-docs-release-1.3/api/java/org/apache/flink/streaming/util/serialization/SerializationSchema.html)
 - [`org.apache.flink.streaming.util.serialization.DeserializationSchema`](https://ci.apache.org/projects/flink/flink-docs-release-1.3/api/java/org/apache/flink/streaming/util/serialization/DeserializationSchema.html)
 
@@ -18,7 +19,7 @@ In-built serializers include:
 - [`org.apache.flink.streaming.util.serialization.SimpleStringSchema`](https://ci.apache.org/projects/flink/flink-docs-release-1.3/api/java/org/apache/flink/streaming/util/serialization/SimpleStringSchema.html)
 - [`org.apache.flink.streaming.util.serialization.TypeInformationSerializationSchema`](https://ci.apache.org/projects/flink/flink-docs-release-1.3/api/java/org/apache/flink/streaming/util/serialization/TypeInformationSerializationSchema.html)
 
-The Pravega connector is designed to use Flink's serialization interfaces.  For example, to read each stream event as a UTF-8 string:
+The Pravega connector is designed to use Flink's serialization interfaces. For example, to read each stream event as a UTF-8 string:
 ```java
 DeserializationSchema<String> schema = new SimpleStringSchema();
 FlinkPravegaReader<String> reader = new FlinkPravegaReader<>(..., schema);
@@ -26,9 +27,9 @@ DataStream<MyEvent> stream = env.addSource(reader);
 ```
 
 ### Interoperability with Other Applications
-A common scenario is using Flink to process Pravega stream data produced by a non-Flink application.  The Pravega client library used by such an application defines the [`io.pravega.client.stream.Serializer`](http://pravega.io/docs/javadoc/v0.1.0/clients/io/pravega/client/stream/Serializer.html) interface for working with event data.  You may use implementations of `Serializer` directly in a Flink program via built-in adapters:
-- `io.pravega.connectors.flink.serialization.PravegaSerializationSchema`
-- `io.pravega.connectors.flink.serialization.PravegaDeserializationSchema`
+A common scenario is using Flink to process Pravega Stream data produced by a non-Flink application.  The Pravega client library used by such applications defines the [`io.pravega.client.stream.Serializer`](http://pravega.io/docs/javadoc/v0.1.0/clients/io/pravega/client/stream/Serializer.html) interface for working with event data. The implementations of `Serializer` directly in a Flink program via built-in adapters can be used:
+- [`io.pravega.connectors.flink.serialization.PravegaSerializationSchema`](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/main/java/io/pravega/connectors/flink/serialization/PravegaSerializationSchema.java)
+- [`io.pravega.connectors.flink.serialization.PravegaDeserializationSchema`](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/main/java/io/pravega/connectors/flink/serialization/PravegaDeserializationSchema.java)
 
 Pass an instance of the appropriate Pravega de/serializer class to the adapter's constructor.  For example:
 ```java
