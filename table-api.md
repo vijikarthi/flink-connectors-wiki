@@ -7,7 +7,7 @@ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 -->
-
+# Table Connector
 The Flink connector library for Pravega provides a table source and table sink for use with the Flink Table API.  The Table API provides a unified API for both the Flink streaming and batch environment.  See the below sections for details.
 
 ## Table of Contents
@@ -24,7 +24,7 @@ A Pravega Stream may be used as a table source within a Flink table program. The
 
 ### Example
 
-The following is an example of using the provided table source to read JSON-formatted events from a Pravega Stream:
+The following example of uses the provided table source to read JSON-formatted events from a Pravega Stream:
 
 ```java
 // Create a Flink Table environment
@@ -89,7 +89,7 @@ Note that the table source supports both the Flink **streaming** and **batch env
 |`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the reader group state.  _Applies only to streaming API._|
 |`withSchema`|The table schema which describes which JSON fields to expect.|
 |`withProctimeAttribute`|The name of the processing time attribute in the supplied table schema.|
-|`withRowTimeAttribute`|supply the name of the rowtime attribute in the table schema, a TimeStampExtractor instance to extract the rowtime attribute value from the event and a WaterMarkStratergy to generate watermarks for the rowtime attribute.|
+|`withRowTimeAttribute`|supply the name of the rowtime attribute in the table schema, a TimeStampExtractor instance to extract the rowtime attribute value from the event and a `WaterMarkStratergy` to generate watermarks for the rowtime attribute.|
 |`failOnMissingField`|A flag indicating whether to fail if a JSON field is missing.|
 
 ### Custom Formats
@@ -103,7 +103,7 @@ A Pravega Stream may be used as an append-only table within a Flink table progra
 
 ### Example
 
-The following is an example of using the provided table sink to write JSON-formatted events to a Pravega Stream:
+The following example uses the provided table sink to write JSON-formatted events to a Pravega Stream:
 
 ```java
 // Create a Flink Table environment
@@ -129,13 +129,13 @@ table.writeToSink(sink);
 ### Parameters
 A builder API is provided to construct an instance of `FlinkPravegaJsonTableSink`.  See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations.md) wiki page for more information.
 
-Note that the table sink supports both the Flink streaming and batch environments.  In the streaming environment, the table sink uses a [`FlinkPravegaWriter`](#streaming.md#flinkpravegawriter) connector.  In the batch environment, the table sink uses a [`FlinkPravegaOutputFormat`](#batch.md#flinkpravegaoutpuformat) connector.  Please see the documentation of [Streaming Connector](streaming.md) and [Batch Connector](#batch.md) to have a better understanding on the below mentioned parameter list.
+Note that the table sink supports both the Flink streaming and batch environments.  In the streaming environment, the table sink uses a [`FlinkPravegaWriter`](streaming.md#flinkpravegawriter) connector.  In the batch environment, the table sink uses a [`FlinkPravegaOutputFormat`](batch.md#flinkpravegaoutpuformat) connector.  Please see the documentation of [Streaming Connector](streaming.md) and [Batch Connector](#batch.md) to have a better understanding on the below mentioned parameter list.
 
 |Method                |Description|
 |----------------------|-----------------------------------------------------------------------|
 |`withPravegaConfig`|The Pravega client configuration, which includes connection info, security info, and a default scope.|
 |`forStream`|The stream to be written to.|
-|`withWriterMode`|The writer mode to provide _best-effort_, _at-least-once_, or _exactly-once_ guarantees.|
+|`withWriterMode`|The writer mode to provide _Best-effort_, _At-least-once_, or _Exactly-once_ guarantees.|
 |`withTxnTimeout`|The timeout for the Pravega Tansaction that supports the _exactly-once_ writer mode.|
 |`withSchema`|The table schema which describes which JSON fields to expect.|
 |`withRoutingKeyField`|The table field to use as the Routing Key for written events.|
