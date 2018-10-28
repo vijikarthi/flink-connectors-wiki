@@ -29,9 +29,9 @@ Metric Name                |Description|
 
 For `FlinkPravegaWriter` related operations, only the stream name is exposed:
 
-Metric Name                |Description|
+Metric Name                 |Description|
 |-----------------|-----------------------------------------------------------------------|
-|`streams`|The streams that are part of the ReaderGroup. The stream name will be a fully qualified name i.e., `scope/stream`|
+|`streams`  |The streams that are part of the ReaderGroup. The stream name will be a fully qualified name i.e., `scope/stream`|
 
 ## Querying Metrics
 
