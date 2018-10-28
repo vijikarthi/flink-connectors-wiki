@@ -32,9 +32,9 @@ for use with the Flink Streaming API. See the below sections for details.
 
 ## FlinkPravegaReader
 
-A Pravega stream may be used as a data source within a Flink streaming program using an instance of   `io.pravega.connectors.flink.FlinkPravegaReader`. The reader reads a given Pravega stream (or multiple streams) as a [`DataStream`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html) (the basic abstraction of the Flink Streaming API).
+A Pravega Stream may be used as a data source within a Flink streaming program using an instance of   `io.pravega.connectors.flink.FlinkPravegaReader`. The reader reads a given Pravega Stream (or multiple streams) as a [`DataStream`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html) (the basic abstraction of the Flink Streaming API).
 
-Open a Pravega stream as a DataStream using the method [`StreamExecutionEnvironment::addSource`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.html#addSource-org.apache.flink.streaming.api.functions.source.SourceFunction-).
+Open a Pravega Stream as a DataStream using the method [`StreamExecutionEnvironment::addSource`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.html#addSource-org.apache.flink.streaming.api.functions.source.SourceFunction-).
 
 #### Example
 ```java
@@ -111,7 +111,7 @@ Each parallel instance of the source processes one or more stream segments in pa
 
 
 ### StreamCuts
-A `StreamCut` represents a specific position in a Pravega stream, which may be obtained from various API interactions with the Pravega client. The `FlinkPravegaReader` accepts a `StreamCut` as the start and/or end position of a given stream. For further reading on
+A `StreamCut` represents a specific position in a Pravega Stream, which may be obtained from various API interactions with the Pravega client. The `FlinkPravegaReader` accepts a `StreamCut` as the start and/or end position of a given stream. For further reading on
 StreamCuts, please refer to documentation on [StreamCut](https://github.com/pravega/pravega/blob/master/documentation/src/docs/streamcuts.md) and [sample code](https://github.com/pravega/pravega-samples/tree/v0.4.2/pravega-client-examples/src/main/java/io/pravega/example/streamcuts).
 
 #### Historical Stream Processing
@@ -119,7 +119,7 @@ StreamCuts, please refer to documentation on [StreamCut](https://github.com/prav
 Historical processing refers to processing stream data from a specific position in the stream rather than from the stream's tail.  The builder API provides an overloaded method `forStream` that accepts a `StreamCut` parameter for this purpose.
 
 ## FlinkPravegaWriter
-A Pravega stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the method [`DataStream::addSink`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-).
+A Pravega Stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the method [`DataStream::addSink`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-).
 
 ### Example
 ```Java
@@ -164,7 +164,7 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 `FlinkPravegaWriter` supports parallelization. Use the `setParallelism` method to configure the number of parallel instances to execute.
 
 ### Event Routing
-Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/latest/pravega-concepts/#events) for details.
+Every event written to a Pravega Stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega Concepts](http://pravega.io/docs/latest/pravega-concepts/#events) for details.
 
 When constructing the `FlinkPravegaWriter`, please provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter` which will guarantee the event ordering. In Pravega, events are guaranteed to be ordered at the segment level.
 
@@ -173,10 +173,10 @@ When constructing the `FlinkPravegaWriter`, please provide an implementation of 
 
 For programs that use Flink's event time semantics, the connector library supports writing events in event time order. In combination with a Routing Key, this establishes a well-understood ordering for each key in the output stream.
 
-Use the method `FlinkPravegaUtils::writeToPravegaInEventTimeOrder` to write a given `DataStream` to a Pravega stream such that events are automatically ordered by event time (on a per-key basis). Refer [here](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/test/java/io/pravega/connectors/flink/FlinkPravegaWriterITCase.java#L93) for sample code.
+Use the method `FlinkPravegaUtils::writeToPravegaInEventTimeOrder` to write a given `DataStream` to a Pravega Stream such that events are automatically ordered by event time (on a per-key basis). Refer [here](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/test/java/io/pravega/connectors/flink/FlinkPravegaWriterITCase.java#L93) for sample code.
 
 ### Writer Modes
-Writer modes relate to guarantees about the persistence of events emitted by the sink to a Pravega stream.  The writer supports three writer modes:
+Writer modes relate to guarantees about the persistence of events emitted by the sink to a Pravega Stream.  The writer supports three writer modes:
 1. **Best-effort** - Any write failures will be ignored hence there could be data loss.
 2. **At-least-once** - All events are persisted in Pravega. Duplicate events
 are possible, due to retries or in case of failure and subsequent recovery.
