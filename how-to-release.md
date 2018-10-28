@@ -41,9 +41,9 @@ Please note the following when performing step 3:
         ```
     Ensure that our `upstream` is set up correctly.
 
-    -  **Via GitHub releases**: When creating a release candidate, Github automatically creates the tag if one doesn't exists. This is discussed in the [release candidate](#pushing-arelease-candidate) section.
+    -  **Via GitHub releases**: When creating a release candidate, Github automatically creates the tag if one doesn't exist. This is discussed in the [release candidate](#pushing-arelease-candidate) section.
 
-2. It situations, sometimes the release candidate is problematic when we do a new release candidate. Hence, this can be handled by repeating the tagging step multiple times until it is created.
+2. In situations, sometimes the release candidate is problematic when we do a new release candidate. Hence, this can be handled by repeating the tagging step multiple times until it is created.
 
 **Note**: Do not update the Connector version, when creating a new release candidate tag.
 
@@ -74,9 +74,10 @@ On the GitHub repository page, go to releases and create a new draft:
 * Mark it as a "pre-release".
 * Fill out the tag field and select the appropriate branch. Note that this is a release candidate, so the tag should look like `vX.Y.Z-rcA`
 
-##3 Step 2: Build the distribution
+### Step 2: Build the distribution
 
-Run the following commands: (For example, assume the branch to be `r0.3`)
+Run the following commands:
+> For example, assume the branch to be `r0.3`
 
 ```
    > git checkout r0.3
@@ -108,7 +109,7 @@ Create a release notes text file containing the following:
    > git log <commit-id-of-last-release>..<current-commit-id>
 ```
 
-* `<commit-id-of-last-release>` depends on the kind of release we are doing. If it is bug fix release, then we can use the tag of the last branch release. For new branches, we have been adding `branch-X.Y` tags at the branch point for convenience.
+* `<commit-id-of-last-release>` depends on the kind of release we are doing. If it is a bug fix release, then we can use the tag of the last branch release. For new branches, we have been adding `branch-X.Y` tags at the branch point for convenience.
 * `<current-commit-id>` is the commit point of the release candidate we are working on. If you have manually tagged the release candidate, then we can it in the log command above.
 
 Add the list to the release notes file and attach it the notes box in the release draft. See previous releases for an example of how to put together notes.
@@ -126,7 +127,7 @@ Once you are happy with the release candidate, we can start the release process.
 
 ## Releasing on GitHub
 
-The process inolved is similar to the one of creating a release candidate as mentioned above. The only two differences are:
+The process involved is similar to the creation of a release candidate as mentioned above. The following changes should be applied:
 1. The tag should not have an `rcA` in it. If the successful rc is `v0.3.0-rc0`, then the release tag is `v0.3.0`.
 2. Uncheck the pre-release box.
 
@@ -143,11 +144,11 @@ Once you are ready, run the following steps:
 * Login to Nexus Repository Manager using Sonatype credentials with write access to `io.pravega` group.
 * Under Build Promotion, choose the Staging Repositories, locate the staging repository that was created for the latest publish (format the `iopravega-XXXX`, like for example `iopravega-1004`).
 * Select the repository and select the _Close button_ in the top menu bar. This will perform validations to ensure that the contents meets the maven requirements (contains signatures, javadocs, sources, etc.). This operation takes minimal time to complete. (Press the _Refresh button_ in the top menu bar occasionally until the operation completes).
-* Once the operation completes, locate the URL field in the _Summary tab_ of the newly closed repository (it will be something like https://oss.sonatype.org/content/repositories/iopravega-XXXX where `XXXX` is the number of the staging repository). This should be tested to ensure that all artifacts are present and functions as expected.
+* Once the operation completes, locate the URL field in the _Summary tab_ of the newly closed repository (it will be something like `https://oss.sonatype.org/content/repositories/iopravega-XXXX` where `XXXX` is the number of the staging repository). This should be tested to ensure that all artifacts are present and functions as expected.
 * To test, for example, use the `pravega-samples` and checkout `develop` branch to verify that it can locate and build with the staging artifacts. Concretely:
     1. Change `pravegaVersion` and `connectorVersion` in `gradle.properties` to the staging version.
     2. Run `./gradlew clean build`
-* After ensuring the correct working of the above mentioned procedures, we can select the _Release button_ in the top menu bar.
+* After ensuring the correct working of the above mentioned procedures, Please click on the _Release button_ in the top menu bar.
 * Please do Wait, until it shows up in [Maven Central](http://central.sonatype.org/pages/ossrh-guide.html#SonatypeOSSMavenRepositoryUsageGuide-9.ActivateCentralSync).
 
 ## Change the Connector version.
