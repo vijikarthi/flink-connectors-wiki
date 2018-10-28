@@ -18,9 +18,9 @@ The following metrics are exposed and made available as Flink metrics for `Flink
 
 Metric Name                |Description|
 |-----------------|-----------------------------------------------------------------------|
-|`readerGroupName`|The name of the reader group.|
-|`scope`|The scope name of the reader group.|
-|`streams`|The streams that are part of the reader group. The stream name will be a fully qualified name i.e., `scope/stream`|
+|`readerGroupName`|The name of the ReaderGroup.|
+|`scope`|The scope name of the ReaderGroup.|
+|`streams`|The streams that are part of the ReaderGroup. The stream name will be a fully qualified name i.e., `scope/stream`|
 |`onlineReaders`|The readers from the reader group that are currently online/available.|
 |`segmentPositions`|The `StreamCut` information that indicates where the readers have read so far.|
 |`unreadBytes`|The total number of bytes that have not been read yet.|
@@ -28,9 +28,10 @@ Metric Name                |Description|
 ## Writer Metrics
 
 For `FlinkPravegaWriter` related operations, only the stream name is exposed:
+
 Metric Name                |Description|
 |-----------------|-----------------------------------------------------------------------|
-|`streams`|The streams that are part of the reader group. The stream name will be a fully qualified name i.e., `scope/stream`|
+|`streams`|The streams that are part of the ReaderGroup. The stream name will be a fully qualified name i.e., `scope/stream`|
 
 ## Querying Metrics
 
