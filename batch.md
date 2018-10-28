@@ -141,7 +141,7 @@ A stream may be specified in one of three ways:
 ### Event Routing
 Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/pravega-concepts/#events) for details.
 
-When constructing the FlinkPravegaWriter, to establish the Routing Key for each event, provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter`.
+To establish the routing key for each event, provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter` when constructing the writer.
 
 ## Serialization
 Please, see the [serialization](serialization.md) page for more information on how to use the _serializer_ and _deserializer_.
