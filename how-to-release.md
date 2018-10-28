@@ -33,6 +33,7 @@ For bug fix release, no new branch is required. First identify the branch we wil
 Please note the following when performing step 3:
 1. There are two ways to tag:
   *  **Via the command line**:
+  
     ```
        > git checkout rX.Y
        > git tag vX.Y.Z-rc0
