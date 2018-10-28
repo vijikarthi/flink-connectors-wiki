@@ -27,11 +27,11 @@ DataStream<MyEvent> stream = env.addSource(reader);
 ```
 
 ### Interoperability with Other Applications
-A common scenario is using Flink to process Pravega Stream data produced by a non-Flink application.  The Pravega client library used by such applications defines the [`io.pravega.client.stream.Serializer`](http://pravega.io/docs/javadoc/v0.1.0/clients/io/pravega/client/stream/Serializer.html) interface for working with event data. The implementations of `Serializer` directly in a Flink program via built-in adapters can be used:
+Its a common scenario to use Flink to process Pravega Stream data produced by a non-Flink application.  The Pravega client library used by such applications defines the [`io.pravega.client.stream.Serializer`](http://pravega.io/docs/javadoc/v0.1.0/clients/io/pravega/client/stream/Serializer.html) interface for working with event data. The implementations of `Serializer` directly in a Flink program via built-in adapters can be used:
 - [`io.pravega.connectors.flink.serialization.PravegaSerializationSchema`](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/main/java/io/pravega/connectors/flink/serialization/PravegaSerializationSchema.java)
 - [`io.pravega.connectors.flink.serialization.PravegaDeserializationSchema`](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/main/java/io/pravega/connectors/flink/serialization/PravegaDeserializationSchema.java)
 
-Pass an instance of the appropriate Pravega de/serializer class to the adapter's constructor.  For example:
+Below is an example, to pass an instance of the appropriate Pravega de/serializer class to the adapter's constructor:
 ```java
 import io.pravega.client.stream.impl.JavaSerializer;
 ...
