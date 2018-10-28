@@ -84,6 +84,7 @@ A builder API is provided to construct an instance of `FlinkPravegaReader`.  See
 
 ### Input Stream(s)
 Each stream in Pravega is contained by a scope.  A scope acts as a namespace for one or more streams.  The `FlinkPravegaReader` is able to read from numerous streams in parallel, even across scopes.  The builder API accepts both **qualified** and **unqualified** stream names.  
+
     - In qualified, the scope is explicitly specified, e.g. `my-scope/my-stream`.  
     - In Unqualified stream names are assumed to refer to the default scope as set in the `PravegaConfig`.
 
@@ -117,6 +118,7 @@ The checkpoint mechanism works as a two-step process:
 Flink requires the events’ timestamps (each element in the stream needs to have its event timestamp assigned). This is achieved by accessing/extracting the timestamp from some field in the element. These are used to tell the system about progress in event time.
 Pravega is not aware (or does not track) of event time and does _not_ store event timestamps or watermarks.
 Nonetheless it is possible to use event time semantics via an application-specific timestamp assigner and watermark generator as described in [Flink documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.3/dev/event_timestamps_watermarks.html#timestamp-assigners--watermark-generators).  
+
 Specify an `AssignerWithPeriodicWatermarks` or `AssignerWithPunctuatedWatermarks` on the `DataStream` as normal.
 
 Each parallel instance of the source processes one or more stream segments in parallel. Each watermark generator instance will receive events multiplexed from numerous segments. Be aware that segments are processed in parallel, and that no effort is made to order the events across segments in terms of their event time.  Also, a given segment may be reassigned to another parallel instance at any time, preserving exactly-once behavior but causing further spread in observed event times.
@@ -124,14 +126,14 @@ Each parallel instance of the source processes one or more stream segments in pa
 
 ### StreamCuts
 A `StreamCut` represents a specific position in a Pravega stream, which may be obtained from various API interactions with the Pravega client. The `FlinkPravegaReader` accepts a `StreamCut` as the start and/or end position of a given stream. For further reading on
-StreamCuts, please refer to documentation on [StreamCut](https://github.com/pravega/pravega/blob/master/documentation/src/docs/streamcuts.md) and [sample code](https://github.com/pravega/pravega-samples/tree/v0.3.2/pravega-client-examples/src/main/java/io/pravega/example/streamcuts).
+StreamCuts, please refer to documentation on [StreamCut](https://github.com/pravega/pravega/blob/master/documentation/src/docs/streamcuts.md) and [sample code](https://github.com/pravega/pravega-samples/tree/v0.4.2/pravega-client-examples/src/main/java/io/pravega/example/streamcuts).
 
 #### Historical Stream Processing
 
 Historical processing refers to processing stream data from a specific position in the stream rather than from the stream's tail.  The builder API provides an overloaded method `forStream` that accepts a `StreamCut` parameter for this purpose.
 
 ## FlinkPravegaWriter
-A Pravega stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the method [DataStream::addSink](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-).
+A Pravega stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the method [`DataStream::addSink`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-).
 
 ### Example
 
@@ -185,7 +187,7 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 `FlinkPravegaWriter` supports parallelization. For more information please revisit the concept [Parallelism](#parallelism) discussed in the above section.
 
 ### Event Routing
-Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/pravega-concepts/#events) for details.
+Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/latest/pravega-concepts/#events) for details.
 
 When constructing the FlinkPravegaWriter, to establish the Routing Key for each event, provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter`.
 
@@ -193,7 +195,7 @@ When constructing the FlinkPravegaWriter, to establish the Routing Key for each 
 
 For programs that use Flink's event time semantics, the connector library supports writing events in event time order. In combination with a Routing Key, this establishes a well-understood ordering for each key in the output stream.
 
-Use the method `FlinkPravegaUtils::writeToPravegaInEventTimeOrder` to write a given `DataStream` to a Pravega stream such that events are automatically ordered by event time (on a per-key basis). Ample code can be found [here](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/test/java/io/pravega/connectors/flink/FlinkPravegaWriterITCase.java#L93).
+Use the method `FlinkPravegaUtils::writeToPravegaInEventTimeOrder` to write a given `DataStream` to a Pravega stream such that events are automatically ordered by event time (on a per-key basis). Refer [here](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/test/java/io/pravega/connectors/flink/FlinkPravegaWriterITCase.java#L93) for sample code.
 
 ### Writer Modes
 Writer modes relate to guarantees about the persistence of events emitted by the sink to a Pravega stream.  The writer supports three writer modes:
@@ -204,11 +206,11 @@ are possible, due to retries or in case of failure and subsequent recovery.
 
 By default, the _At-least-once_ option is enabled and use `.withWriterMode(...)` option to override the value.
 
-See the [Pravega documentation](http://pravega.io/docs/pravega-concepts/#transactions) for details on transactional behavior.
+See the [Pravega documentation](http://pravega.io/docs/latest/pravega-concepts/#transactions) for details on transactional behavior.
 
 # Metrics
 Metrics are reported by default unless it is explicitly disabled using `enableMetrics(...)` option.
 See [Metrics](metrics.md) page for more details on type of metrics that are reported._
 
 # Serialization
-See the [serialization](serialization) page for more information on how to use the _serializer_ and _deserializer_.
+See the [serialization](serialization.md) page for more information on how to use the _serializer_ and _deserializer_.
