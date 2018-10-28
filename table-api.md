@@ -22,7 +22,7 @@ The Flink connector library for Pravega provides a table source and table sink f
 ## Table Source
 A Pravega Stream may be used as a table source within a Flink table program. The Flink Table API is oriented around Flink's `TableSchema` classes which describe the table fields.  A concrete subclass of `FlinkPravegaTableSource` is then used to parse raw stream data as `Row` objects that conform to the table schema.  The connector library provides out-of-box support for JSON-formatted data with `FlinkPravegaJsonTableSource`, and may be extended to support other formats.
 
-### Example
+#### Example
 
 The following example of uses the provided table source to read JSON-formatted events from a Pravega Stream:
 
@@ -101,7 +101,7 @@ With the use of `withProctimeAttribute` or `withRowTimeAttribute` builder method
 ## Table Sink
 A Pravega Stream may be used as an append-only table within a Flink table program.  The Flink Table API is oriented around Flink's `TableSchema` classes which describe the table fields.  A concrete subclass of `FlinkPravegaTableSink` is then used to write table rows to a Pravega Stream in a particular format. The connector library provides out-of-box support for JSON-formatted data with `FlinkPravegaJsonTableSource`, and may be extended to support other formats.
 
-### Example
+#### Example
 
 The following example uses the provided table sink to write JSON-formatted events to a Pravega Stream:
 
