@@ -1,3 +1,5 @@
+# Contributing
+
 # Table of contents
 
  - [Introduction](#introduction)
