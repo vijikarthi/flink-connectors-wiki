@@ -125,7 +125,7 @@ A builder API is provided to construct an instance of `FlinkPravegaOutputFormat`
 
 ### Output Stream
 
-Each stream in Pravega is contained by a scope.  A scope acts as a namespace for one or more streams.  The `FlinkPravegaReader` is able to read from numerous streams in parallel, even across scopes.  The builder API accepts both **qualified** and **unqualified** stream names.  
+Each stream in Pravega is contained by a scope.  A scope acts as a namespace for one or more streams. The builder API accepts both **qualified** and **unqualified** stream names.  
     - In qualified, the scope is explicitly specified, e.g. `my-scope/my-stream`.  
     - In Unqualified stream names are assumed to refer to the default scope as set in the `PravegaConfig`.
 
@@ -141,9 +141,7 @@ A stream may be specified in one of three ways:
 ### Event Routing
 Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/pravega-concepts/#events) for details.
 
-When constructing the FlinkPravegaWriter, to establish the Routing Key for each event, provide the below mentioned implementation:
-```
-io.pravega.connectors.flink.PravegaEventRouter`
-```
+When constructing the FlinkPravegaWriter, to establish the Routing Key for each event, provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter`.
+
 ## Serialization
 Please, see the [serialization](serialization.md) page for more information on how to use the _serializer_ and _deserializer_.
