@@ -14,7 +14,7 @@ for use with the Flink Streaming API. See the below sections for details.
 
 ## Table of Contents
 - [FlinkPravegaReader](#flinkpravegareader)
-  - [Buildre API Usage](#builder-api-usage)
+  - [Builder API Usage](#builder-api-usage)
   - [Input Stream(s)](#input-streams)
   - [Parallelism](#parallelism)
   - [Checkpointing](#checkpointing)
