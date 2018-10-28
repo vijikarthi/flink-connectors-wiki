@@ -26,7 +26,7 @@ FlinkPravegaReader<String> reader = new FlinkPravegaReader<>(..., schema);
 DataStream<MyEvent> stream = env.addSource(reader);
 ```
 
-### Interoperability with Other Applications
+## Interoperability with Other Applications
 Its a common scenario to use Flink to process Pravega Stream data produced by a non-Flink application.  The Pravega client library used by such applications defines the [`io.pravega.client.stream.Serializer`](http://pravega.io/docs/javadoc/v0.1.0/clients/io/pravega/client/stream/Serializer.html) interface for working with event data. The implementations of `Serializer` directly in a Flink program via built-in adapters can be used:
 - [`io.pravega.connectors.flink.serialization.PravegaSerializationSchema`](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/main/java/io/pravega/connectors/flink/serialization/PravegaSerializationSchema.java)
 - [`io.pravega.connectors.flink.serialization.PravegaDeserializationSchema`](https://github.com/pravega/flink-connectors/blob/7971206038b51b3cf0e317e194c552c4646e5c20/src/main/java/io/pravega/connectors/flink/serialization/PravegaDeserializationSchema.java)
