@@ -8,20 +8,13 @@ You may obtain a copy of the License at
     http://www.apache.org/licenses/LICENSE-2.0
 -->
 
-## Metrics
+# Metrics
 
-Pravega metrics are collected and exposed to Flink metrics framework when using `FlinkPravegaReader` or `FlinkPravegaWriter` instances to perform read and write operations on Pravega streams.
+Pravega metrics are collected and exposed to Flink metrics framework when using `FlinkPravegaReader` or `FlinkPravegaWriter` instances to perform read and write operations on Pravega Streams.
 
-### Reader Metrics
+## Reader Metrics
 
-The following metrics are exposed and made available as Flink metrics for `FlinkPravegaReader` related operations.
-
-- reader group name
-- scope
-- stream names
-- online readers
-- segment positions
-- unread bytes
+The following metrics are exposed and made available as Flink metrics for `FlinkPravegaReader` related operations:
 
 Metric Name                |Description|
 |-----------------|-----------------------------------------------------------------------|
@@ -29,18 +22,21 @@ Metric Name                |Description|
 |`scope`|The scope name of the reader group.|
 |`streams`|The streams that are part of the reader group. The stream name will be a fully qualified name i.e., `scope/stream`|
 |`onlineReaders`|The readers from the reader group that are currently online/available.|
-|`segmentPositions`|The StreamCut information that indicates where the readers have read so far.|
+|`segmentPositions`|The `StreamCut` information that indicates where the readers have read so far.|
 |`unreadBytes`|The total number of bytes that have not been read yet.|
 
-### Writer Metrics
+## Writer Metrics
 
-For `FlinkPravegaWriter` related operations, only the stream name is exposed.
+For `FlinkPravegaWriter` related operations, only the stream name is exposed:
+Metric Name                |Description|
+|-----------------|-----------------------------------------------------------------------|
+|`streams`|The streams that are part of the reader group. The stream name will be a fully qualified name i.e., `scope/stream`|
 
-### Querying Metrics
+## Querying Metrics
 
-The metrics can be viewed either from Flink UI or using the Flink Rest API (see below for example).
+The metrics can be viewed either from Flink UI or using the Flink `REST` API, see below:
 
-```
+```java
 curl -i -s -f <FLINK-HOST:PORT>/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.readerGroupName
 
 curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.scope
@@ -54,4 +50,3 @@ curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get
 curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.unreadBytes
 
 ```
- 
