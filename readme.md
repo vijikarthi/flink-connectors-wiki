@@ -87,7 +87,7 @@ The latest releases can be found on the [Github Release](https://github.com/prav
 
 ## Support
 
-Don’t hesitate to ask! Contact the developers and community on the  [slack](https://pravega-io.slack.com/) if you need any help.
+Don’t hesitate to ask! Contact the developers and community on the  [Slack](https://pravega-io.slack.com/) if you need any help.
 Open an issue if you found a bug on [Github
 Issues](https://github.com/pravega/flink-connectors/issues).
 
