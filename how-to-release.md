@@ -10,21 +10,21 @@ You may obtain a copy of the License at
 
 # How to Release?
 
-If you are releasing a version of Pravega/Flink Connector, then you must read and follow the below instructions. The steps mentioned here are based on the experience we are building across releases, so if you have any queries, please feel free to open an issue on [Github
+If you are releasing a version of Pravega/Flink Connector, then you must read and follow the below instructions. The steps mentioned here are based on the experience we are building across releases, if you have any queries, please feel free to open an issue on [Github
 Issues](https://github.com/pravega/flink-connectors/issues) or contact us on [Slack](https://pravega-io.slack.com/).
 
 **Note**: In case, if you are updating Flink version, please make sure, the new features or changes introduced in Flink are addressed in the connector.
 
 # Preparing the Branch
 
-Preparing the branch consists of making the necessary changes to the branch you will be working on as part of releasing. There are two possible situations:
+Preparing the branch consists of making the necessary changes to the branch we will be working on as part of releasing. Following are the possible two situations:
 
  -  **Bug fix release**: This is a minor release version over an existing release branch.
  -  **Feature release or non-backward-compatible release**: This is a change to either the first or the middle digit, and it requires a new release branch.
 
 ## Bug Fix Release
 
-For bug fix release, no new branch is required. First identify the branch you'll be working on. It will be named `rX.Y`, e.g., `r0.2`. The preparation consists of:
+For bug fix release, no new branch is required. First identify the branch we will be working on. It will be named `rX.Y`, (e.g., `r0.2`). The preparation consists of:
 
 1. Changing `connectorVersion` in `gradle.properties` from `X.Y.Z-SNAPSHOT` to `X.Y.Z`. For example, if the current value is `connectorVersion=0.2.1-SNAPSHOT`, then change it to `connectorVersion=0.2.1`.
 2. Merge this change.
@@ -32,23 +32,24 @@ For bug fix release, no new branch is required. First identify the branch you'll
 
 Please note the following when performing step 3:
 1. There are two ways to tag:
-    *  **Via the command line**:
+  *  **Via the command line**:
     ```
        > git checkout rX.Y
        > git tag vX.Y.Z-rc0
        > git push upstream vX.Y.Z-rc0
     ```
-    Make sure you have your `upstream` set up correctly.
+    Ensure that our `upstream` set up correctly.
 
-    *  **Via GitHub releases**: When creating a release candidate, Github automatically creates the tag if it is not existing. This is discussed in the [release candidate](#pushing-arelease-candidate) section.
+  *  **Via GitHub releases**: When creating a release candidate, Github automatically creates the tag if one doesn't exists. This is discussed in the [release candidate](#pushing-arelease-candidate) section.
 
-2. It situations, sometimes the release candidate is problematic when we do a new release candidate. Hence this can be handled by repeating the tagging step multiple times until it is created.
+2. It situations, sometimes the release candidate is problematic when we do a new release candidate. Hence, this can be handled by repeating the tagging step multiple times until it is created.
 
 **Note**: Do not update the Connector version, when creating a new release candidate tag.
 
 ## Major Release
 
-A major release, changes either the middle or the most significant digit. To perform major release, a new branch should be created. Please follow the below steps: (_For example, assume the new release to be `0.3.0`_)
+In major release, either the middle or the most significant digit is changed. To perform major release, a new branch should be created. Please follow the below steps:
+ >_For example, assume the new release to be `0.3.0`_
 
 ```
   > git checkout master
