@@ -189,7 +189,8 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 ### Event Routing
 Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/latest/pravega-concepts/#events) for details.
 
-When constructing the FlinkPravegaWriter, to establish the Routing Key for each event, provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter`.
+When constructing the `FlinkPravegaWriter`, please provide an implementation of `io.pravega.connectors.flink.PravegaEventRouter` which will guarantee the event ordering. In Pravega, events are guaranteed to be ordered at the segment level.
+
 
 ### Event Time Ordering
 
