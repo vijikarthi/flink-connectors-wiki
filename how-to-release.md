@@ -34,12 +34,12 @@ Please note the following when performing step 3:
 1. There are two ways to tag:
   -  **Via the command line**:
 
-    ```
+   ```
        > git checkout rX.Y
        > git tag vX.Y.Z-rc0
        > git push upstream vX.Y.Z-rc0
     ```
-    Ensure that our `upstream` set up correctly.
+    Ensure that our `upstream` is set up correctly.
 
   -  **Via GitHub releases**: When creating a release candidate, Github automatically creates the tag if one doesn't exists. This is discussed in the [release candidate](#pushing-arelease-candidate) section.
 
