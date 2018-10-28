@@ -32,13 +32,10 @@ for use with the Flink Streaming API. See the below sections for details.
 
 ## FlinkPravegaReader
 
-A Pravega stream may be used as a data source within a Flink streaming program using an instance of `io.pravega.connectors.flink.FlinkPravegaReader`.The reader reads a given Pravega stream (or multiple streams) as a [`DataStream`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html) (the basic abstraction of the Flink Streaming API).
+A Pravega stream may be used as a data source within a Flink streaming program using an instance of   `io.pravega.connectors.flink.FlinkPravegaReader`. The reader reads a given Pravega stream (or multiple streams) as a [`DataStream`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html) (the basic abstraction of the Flink Streaming API).
 
-Open a Pravega stream as a DataStream using the following method:
+Open a Pravega stream as a DataStream using the method [`StreamExecutionEnvironment::addSource`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.html#addSource-org.apache.flink.streaming.api.functions.source.SourceFunction-).
 
-```
-[`StreamExecutionEnvironment::addSource`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.html#addSource-org.apache.flink.streaming.api.functions.source.SourceFunction-)
-```
 #### Example
 
 Initiate the Java Stream execution Environment
@@ -93,7 +90,7 @@ Each stream in Pravega is contained by a scope.  A scope acts as a namespace for
 A stream may be specified in one of three ways:
 
  1. As a string containing a qualified name, in the form `scope/stream`.
- 2. As a string containing an unqualified name, in the form `stream`.  Such streams are resolved to the default scope.
+ 2. As a string containing an unqualified name, in the form `stream`. Such streams are resolved to the default scope.
  3. As an instance of `io.pravega.client.stream.Stream`, e.g. `Stream.of("my-scope", "my-stream")`.
 
 ### Parallelism
@@ -134,11 +131,8 @@ StreamCuts, please refer to documentation on [StreamCut](https://github.com/prav
 Historical processing refers to processing stream data from a specific position in the stream rather than from the stream's tail.  The builder API provides an overloaded method `forStream` that accepts a `StreamCut` parameter for this purpose.
 
 ## FlinkPravegaWriter
-A Pravega stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the following method:
+A Pravega stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the method [DataStream::addSink](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-).
 
-```
-[DataStream::addSink](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-)
-```
 ### Example
 
 Initiate the Java Stream execution Environment:
@@ -214,7 +208,7 @@ See the [Pravega documentation](http://pravega.io/docs/pravega-concepts/#transac
 
 # Metrics
 Metrics are reported by default unless it is explicitly disabled using `enableMetrics(...)` option.
-_See [metrics](metrics) page for more details on type of metrics that are reported._
+See [Metrics](metrics.md) page for more details on type of metrics that are reported._
 
 # Serialization
-_See the [serialization](serialization) page for more information on how to use the serializer and deserializer_.
+See the [serialization](serialization) page for more information on how to use the _serializer_ and _deserializer_.
