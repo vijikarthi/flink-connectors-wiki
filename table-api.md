@@ -20,10 +20,13 @@ The Flink connector library for Pravega provides a table source and table sink f
   - [Custom Formats](#custom-formats-1)
 
 ## Table Source
-A Pravega stream may be used as a table source within a Flink table program.  The Flink Table API is oriented around Flink's `TableSchema` classes which describe the table fields.  A concrete subclass of `FlinkPravegaTableSource` is then used to parse raw stream data as `Row` objects that conform to the table schema.  The connector library provides out-of-box support for JSON-formatted data with `FlinkPravegaJsonTableSource`, and may be extended to support other formats.
+A Pravega Stream may be used as a table source within a Flink table program. The Flink Table API is oriented around Flink's `TableSchema` classes which describe the table fields.  A concrete subclass of `FlinkPravegaTableSource` is then used to parse raw stream data as `Row` objects that conform to the table schema.  The connector library provides out-of-box support for JSON-formatted data with `FlinkPravegaJsonTableSource`, and may be extended to support other formats.
 
-Here's an example of using the provided table source to read JSON-formatted events from a Pravega stream:
-```
+### Example
+
+The following is an example of using the provided table source to read JSON-formatted events from a Pravega Stream:
+
+```java
 // Create a Flink Table environment
 ExecutionEnvironment  env = ExecutionEnvironment.getExecutionEnvironment();
 
@@ -32,7 +35,7 @@ PravegaConfig config = PravegaConfig.fromParams(params);
 
 String[] fieldNames = {"user", "uri", "accessTime"};
 
-// read data from the stream using Table reader
+// Read data from the stream using Table reader
 TableSchema tableSchema = TableSchema.builder()
         .field("user", Types.STRING())
         .field("uri", Types.STRING())
@@ -50,14 +53,14 @@ FlinkPravegaJsonTableSource source = FlinkPravegaJsonTableSource.builder()
                                         .withReaderGroupScope(stream.getScope())
                                         .build();
 
-// (option-1) read table as stream data 
+// (Option-1) Read table as stream data
 StreamTableEnvironment tableEnv = TableEnvironment.getTableEnvironment(env);
 tableEnv.registerTableSource("MyTableRow", source);
 String sqlQuery = "SELECT user, count(uri) from MyTableRow GROUP BY user";
 Table result = tableEnv.sqlQuery(sqlQuery);
 ...
 
-// (option-2) read table as batch data (use tumbling window as part of the query)
+// (Option-2) Read table as batch data (use tumbling window as part of the query)
 BatchTableEnvironment tableEnv = TableEnvironment.getTableEnvironment(env);
 tableEnv.registerTableSource("MyTableRow", source);
 String sqlQuery = "SELECT user, " +
@@ -71,10 +74,9 @@ Table result = tableEnv.sqlQuery(sqlQuery);
 ```
 
 ### Parameters
-A builder API is provided to construct an instance of `FlinkPravegaJsonTableSource`.  See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations) page for more information.
+A builder API is provided to construct an instance of `FlinkPravegaJsonTableSource`. See the table below for a summary of builder properties. Note that the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations.md) page for more information.
 
-Note that the table source supports both the Flink streaming and batch environments.  In the streaming environment, the table source uses a `FlinkPravegaReader` connector ([ref](streaming)); in the batch environment, the table source uses a `FlinkPravegaInputFormat` connector ([ref](batch)).  Please see the documentation for the respective connectors to better understand the below parameters.
-
+Note that the table source supports both the Flink **streaming** and **batch environments**. In the streaming environment, the table source uses a [`FlinkPravegaReader`](streaming.md#flinkpravegareader) connector. In the batch environment, the table source uses a [`FlinkPravegaInputFormat`](batch.md#flinkpravegainputformat) connectors. Please see the documentation of [Streaming Connector](streaming.md) and [Batch Connector](#batch.md) to have a better understanding on the below mentioned parameter list.
 
 |Method                |Description|
 |----------------------|-----------------------------------------------------------------------|
@@ -91,15 +93,18 @@ Note that the table source supports both the Flink streaming and batch environme
 |`failOnMissingField`|A flag indicating whether to fail if a JSON field is missing.|
 
 ### Custom Formats
-To work with stream events in a format other than JSON, extend `FlinkPravegaTableSource`.  Please look at the implementation of `FlinkPravegaJsonTableSource` ([ref](https://github.com/pravega/flink-connectors/blob/master/src/main/java/io/pravega/connectors/flink/FlinkPravegaJsonTableSource.java)) for details.
+To work with stream events in a format other than JSON, extend `FlinkPravegaTableSource`. Please see the implementation of [`FlinkPravegaJsonTableSource`](https://github.com/pravega/flink-connectors/blob/master/src/main/java/io/pravega/connectors/flink/FlinkPravegaJsonTableSource.java) for more details.
 
 ### Time Attribute Support
-With the use of `withProctimeAttribute` or `withRowTimeAttribute` builder method, one could supply the time attribute information of the event. The configured field must be present in the table schema and of type Types.SQL_TIMESTAMP()
+With the use of `withProctimeAttribute` or `withRowTimeAttribute` builder method, one could supply the time attribute information of the event. The configured field must be present in the table schema and of type `Types.SQL_TIMESTAMP()`.
 
 ## Table Sink
-A Pravega stream may be used as an append-only table within a Flink table program.  The Flink Table API is oriented around Flink's `TableSchema` classes which describe the table fields.  A concrete subclass of `FlinkPravegaTableSink` is then used to write table rows to a Pravega stream in a particular format.  The connector library provides out-of-box support for JSON-formatted data with `FlinkPravegaJsonTableSource`, and may be extended to support other formats.
+A Pravega Stream may be used as an append-only table within a Flink table program.  The Flink Table API is oriented around Flink's `TableSchema` classes which describe the table fields.  A concrete subclass of `FlinkPravegaTableSink` is then used to write table rows to a Pravega Stream in a particular format. The connector library provides out-of-box support for JSON-formatted data with `FlinkPravegaJsonTableSource`, and may be extended to support other formats.
 
-Here's an example of using the provided table sink to write JSON-formatted events to a Pravega stream:
+### Example
+
+The following is an example of using the provided table sink to write JSON-formatted events to a Pravega Stream:
+
 ```java
 // Create a Flink Table environment
 StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -111,7 +116,7 @@ PravegaConfig config = PravegaConfig.fromParams(ParameterTool.fromArgs(args));
 // Define a table (see Flink documentation)
 Table table = ...
 
-// Write the table to a Pravega stream
+// Write the table to a Pravega Stream
 FlinkPravegaJsonTableSink sink = FlinkPravegaJsonTableSink.builder()
     .forStream("sensor_stream")
     .withPravegaConfig(config)
@@ -122,18 +127,18 @@ table.writeToSink(sink);
 ```
 
 ### Parameters
-A builder API is provided to construct an instance of `FlinkPravegaJsonTableSink`.  See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations) wiki page for more information.
+A builder API is provided to construct an instance of `FlinkPravegaJsonTableSink`.  See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations.md) wiki page for more information.
 
-Note that the table sink supports both the Flink streaming and batch environments.  In the streaming environment, the table sink uses a `FlinkPravegaWriter` connector ([ref](streaming)); in the batch environment, the table sink uses a `FlinkPravegaOutputFormat` connector ([ref](batch)).  Please see the documentation for the respective connectors to better understand the below parameters.
+Note that the table sink supports both the Flink streaming and batch environments.  In the streaming environment, the table sink uses a [`FlinkPravegaWriter`](#streaming.md#flinkpravegawriter) connector.  In the batch environment, the table sink uses a [`FlinkPravegaOutputFormat`](#batch.md#flinkpravegaoutpuformat) connector.  Please see the documentation of [Streaming Connector](streaming.md) and [Batch Connector](#batch.md) to have a better understanding on the below mentioned parameter list.
 
 |Method                |Description|
 |----------------------|-----------------------------------------------------------------------|
 |`withPravegaConfig`|The Pravega client configuration, which includes connection info, security info, and a default scope.|
 |`forStream`|The stream to be written to.|
-|`withWriterMode`|The writer mode to provide best-effort, at-least-once, or exactly-once guarantees.|
-|`withTxnTimeout`|The timeout for the Pravega transaction that supports the exactly-once writer mode.|
+|`withWriterMode`|The writer mode to provide _best-effort_, _at-least-once_, or _exactly-once_ guarantees.|
+|`withTxnTimeout`|The timeout for the Pravega Tansaction that supports the _exactly-once_ writer mode.|
 |`withSchema`|The table schema which describes which JSON fields to expect.|
-|`withRoutingKeyField`|The table field to use as the routing key for written events.|
+|`withRoutingKeyField`|The table field to use as the Routing Key for written events.|
 
 ### Custom Formats
-To work with stream events in a format other than JSON, extend `FlinkPravegaTableSink`.  Please look at the implementation of `FlinkPravegaJsonTableSink` ([ref](https://github.com/pravega/flink-connectors/blob/master/src/main/java/io/pravega/connectors/flink/FlinkPravegaJsonTableSink.java)) for details.
+To work with stream events in a format other than JSON, extend `FlinkPravegaTableSink`. Please see the implementation of [`FlinkPravegaJsonTableSink`](https://github.com/pravega/flink-connectors/blob/master/src/main/java/io/pravega/connectors/flink/FlinkPravegaJsonTableSink.java) for more details.
