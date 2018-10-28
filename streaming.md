@@ -64,7 +64,7 @@ A builder API is provided to construct an instance of `FlinkPravegaReader`. See 
 |`forStream`|The stream to be read from, with optional start and/or end position.  May be called repeatedly to read numerous streams in parallel.|
 |`uid`|The uid to identify the checkpoint state of this source.|
 |`withReaderGroupScope`|The scope to store the reader group synchronization stream into.|
-|`withReaderGroupName`|The reader group name for display purposes.|
+|`withReaderGroupName`|The ReaderGroup name for display purposes.|
 |`withReaderGroupRefreshTime`|The interval for synchronizing the reader group state across parallel source instances.|
 |`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the reader group state.|
 |`withDeserializationSchema`|The deserialization schema which describes how to turn byte messages into events.|
@@ -131,7 +131,7 @@ PravegaConfig config = PravegaConfig.fromParams(params);
 // Define the event serializer
 SerializationSchema<MyClass> serializer = ...
 
-// Define the event router for selecting the routing key
+// Define the event router for selecting the Routing Key
 PravegaEventRouter<MyClass> router = ...
 
 // Define the sink function
@@ -154,11 +154,11 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 |----------------------|-----------------------------------------------------------------------|
 |`withPravegaConfig`|The Pravega client configuration, which includes connection info, security info, and a default scope.|
 |`forStream`|The stream to be written to.|
-|`withWriterMode`|The writer mode to provide best-effort, at-least-once, or exactly-once guarantees.|
-|`withTxnLeaseRenewalPeriod`|The transaction lease renewal period that supports the exactly-once writer mode.|
+|`withWriterMode`|The writer mode to provide _Best-effort, _At-least-once_, or _Exactly-once_ guarantees.|
+|`withTxnLeaseRenewalPeriod`|The Transaction lease renewal period that supports the _Exactly-once_ writer mode.|
 |`withSerializationSchema`|The serialization schema which describes how to turn events into byte messages.|
-|`withEventRouter`|The router function which determines the routing key for a given event.|
-|`enableMetrics`|true or false to enable/disable reporting Pravega reader group metrics. By default, the metrics option is enabled.|
+|`withEventRouter`|The router function which determines the Routing Key for a given event.|
+|`enableMetrics`|true or false to enable/disable reporting Pravega ReaderGroup metrics. By default, the metrics option is enabled.|
 
 ### Parallelism
 `FlinkPravegaWriter` supports parallelization. Use the `setParallelism` method to configure the number of parallel instances to execute.
