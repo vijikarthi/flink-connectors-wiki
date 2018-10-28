@@ -14,7 +14,7 @@ for use with the Flink Streaming API. See the below sections for details.
 
 ## Table of Contents
 - [FlinkPravegaReader](#flinkpravegareader)
-  - [Builder API Usage](#builder-api-usage)
+  - [Parameters](#parameters)
   - [Input Stream(s)](#input-streams)
   - [Parallelism](#parallelism)
   - [Checkpointing](#checkpointing)
@@ -22,7 +22,7 @@ for use with the Flink Streaming API. See the below sections for details.
   - [Stream Cuts](#streamcuts)
   - [Historical Stream Processing](#historical-stream-processing)
 - [FlinkPravegaWriter](#flinkpravegawriter)
-  - [Builder API Usage](#builder-api-usage)
+  - [Parameters](#parameters)
   - [Parallelism](#parallelism1)
   - [Event Routing](#event-routing)
   - [Event Time Ordering](#event-time-ordering)
@@ -37,38 +37,26 @@ A Pravega stream may be used as a data source within a Flink streaming program u
 Open a Pravega stream as a DataStream using the method [`StreamExecutionEnvironment::addSource`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.html#addSource-org.apache.flink.streaming.api.functions.source.SourceFunction-).
 
 #### Example
-
-Initiate the Java Stream execution Environment
-
-```
+```java
 StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-```
-Pravega configuration can be defined using:
 
-```
+// Define the Pravega configuration
 PravegaConfig config = PravegaConfig.fromParams(params);
-```
 
-Event deserializer can be defined using:
-
-```
+// Define the event deserializer
 DeserializationSchema<MyClass> deserializer = ...
-```
-Data stream can be defined using:
 
-```
+// Define the data stream
 FlinkPravegaReader<MyClass> pravegaSource = FlinkPravegaReader.<MyClass>builder()
     .forStream(...)
     .withPravegaConfig(config)
     .withDeserializationSchema(deserializer)
     .build();
 DataStream<MyClass> stream = env.addSource(pravegaSource);
-...
 ```
+### Parameters
 
-### Builder API Usage
-
-A builder API is provided to construct an instance of `FlinkPravegaReader`.  See the table below for a summary of builder properties.  Note that, the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations.md) page for more information.
+A builder API is provided to construct an instance of `FlinkPravegaReader`. See the table below for a summary of builder properties.  Note that, the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations.md) page for more information.
 
 |Method                |Description|
 |----------------------|-----------------------------------------------------------------------|
@@ -96,11 +84,9 @@ A stream may be specified in one of three ways:
 
 ### Parallelism
 
-The `FlinkPravegaReader` supports parallelization. This section describes how the parallel execution of programs can be configured in Flink. A Flink program consists of multiple tasks (transformations/operators, data sources, and sinks). A task is split into several parallel instances for execution and each parallel instance processes a subset of the task’s input data. The number of parallel instances of a task is called its parallelism.
+The `FlinkPravegaReader` supports parallelization. Use the `setParallelism` method to of `Datastream` to configure the number of parallel instances to execute.  The parallel instances consume the stream in a coordinated manner, each consuming one or more stream segments.
 
-Use the `setParallelism` method to configure the number of parallel instances to execute.  The parallel instances consume the stream in a coordinated manner, each consuming one or more stream segments.
-
-**Note:** Coordination is achieved with the use of a Pravega ReaderGroup, which is based on a [State Synchronizer](http://pravega.io/docs/pravega-concepts/#state-synchronizers). The Synchronizer creates a backing stream that may be manually deleted after the completion of the job.
+**Note:** Coordination is achieved with the use of a Pravega ReaderGroup, which is based on a [State Synchronizer](http://pravega.io/docs/latest/pravega-concepts/#state-synchronizers). The Synchronizer creates a backing stream that may be manually deleted after the completion of the job.
 
 ### Checkpointing
 
@@ -110,8 +96,8 @@ A **savepoint** is self-contained; it contains all information needed to resume 
 
 The checkpoint mechanism works as a two-step process:
 
-   - The [master hook](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/runtime/checkpoint/MasterTriggerRestoreHook.html) handler from the job manager initiates the [trigger checkpoint](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/runtime/checkpoint/MasterTriggerRestoreHook.html#triggerCheckpoint-long-long-java.util.concurrent.Executor-) request to  the `ReaderCheckpointHook` that was registered with the Job Manager during `FlinkPravegaReader` source initialization. The `ReaderCheckpointHook` handler notifies Pravega to checkpoint the current reader state. This is a non-blocking call which returns a `future` once Pravega readers are done with the checkpointing.
-   - A `CheckPoint` event will be sent by Pravega as part of the data stream flow and on receiving the event, the `FlinkPravegaReader` will initiate [trigger checkpoint](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/checkpoint/ExternallyInducedSource.java#L73) request to effectively let Flink continue and complete the checkpoint process.
+   - The [master hook](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/runtime/checkpoint/MasterTriggerRestoreHook.html) handler from the job manager initiates the [`triggerCheckpoint`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/runtime/checkpoint/MasterTriggerRestoreHook.html#triggerCheckpoint-long-long-java.util.concurrent.Executor-) request to  the `ReaderCheckpointHook` that was registered with the Job Manager during `FlinkPravegaReader` source initialization. The `ReaderCheckpointHook` handler notifies Pravega to checkpoint the current reader state. This is a non-blocking call which returns a `future` once Pravega readers are done with the checkpointing.
+   - A `CheckPoint` event will be sent by Pravega as part of the data stream flow and on receiving the event, the `FlinkPravegaReader` will initiate [`triggerCheckpoint`](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/checkpoint/ExternallyInducedSource.java#L73) request to effectively let Flink continue and complete the checkpoint process.
 
 ### Timestamp Extraction / Watermark Emission
 
@@ -136,27 +122,19 @@ Historical processing refers to processing stream data from a specific position 
 A Pravega stream may be used as a data sink within a Flink program using an instance of `io.pravega.connectors.flink.FlinkPravegaWriter`. Add an instance of the writer to the dataflow program using the method [`DataStream::addSink`](https://ci.apache.org/projects/flink/flink-docs-stable/api/java/org/apache/flink/streaming/api/datastream/DataStream.html#addSink-org.apache.flink.streaming.api.functions.sink.SinkFunction-).
 
 ### Example
-
-Initiate the Java Stream execution Environment:
-
-```
+```Java
 StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-```
-Pravega configuration can be defined using:
-```
-PravegaConfig config = PravegaConfig.fromParams(params);
-```
-Event serializer can be configured using:
-```
-SerializationSchema<MyClass> serializer = ...
-```
 
-Event router for selecting the Routing Key can be defined using:
-```
+// Define the Pravega configuration
+PravegaConfig config = PravegaConfig.fromParams(params);
+
+// Define the event serializer
+SerializationSchema<MyClass> serializer = ...
+
+// Define the event router for selecting the routing key
 PravegaEventRouter<MyClass> router = ...
-```
-Sink function can be defined as follows:
-```
+
+// Define the sink function
 FlinkPravegaWriter<MyClass> pravegaSink = FlinkPravegaWriter.<MyClass>builder()
    .forStream(...)
    .withPravegaConfig(config)
@@ -168,8 +146,7 @@ FlinkPravegaWriter<MyClass> pravegaSink = FlinkPravegaWriter.<MyClass>builder()
 DataStream<MyClass> stream = ...
 stream.addSink(pravegaSink);
 ```
-
-### Builder API Usage
+### Parameters
 
 A builder API is provided to construct an instance of `FlinkPravegaWriter`. See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties.  See the [configurations](configurations.md) page for more information.
 
@@ -184,7 +161,7 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 |`enableMetrics`|true or false to enable/disable reporting Pravega reader group metrics. By default, the metrics option is enabled.|
 
 ### Parallelism
-`FlinkPravegaWriter` supports parallelization. For more information please revisit the concept [Parallelism](#parallelism) discussed in the above section.
+`FlinkPravegaWriter` supports parallelization. Use the `setParallelism` method to configure the number of parallel instances to execute.
 
 ### Event Routing
 Every event written to a Pravega stream has an associated Routing Key.  The Routing Key is the basis for event ordering.  See the [Pravega documentation](http://pravega.io/docs/latest/pravega-concepts/#events) for details.
