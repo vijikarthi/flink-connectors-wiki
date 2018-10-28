@@ -44,6 +44,6 @@ Alternatively, we could build and publish the connector project to local maven r
 
 From Flink's perspective, the connector to Pravega is part of the streaming application (not part of Flink's core runtime), so the connector code must be part of the application's code artifact (JAR file). Typically, a Flink application is bundled as a _`fat-jar`_ or _`uber-jar_`, such that all its dependencies are embedded.
 
- - The project set up should have been a success, if you have used the above linked [templates/guides](#Cceating-a-flink-stream-processing-project).
+ - The project set up should have been a success, if you have used the above linked [templates/guides](#ceating-a-flink-stream-processing-project).
 
  - If you set up a application's project and dependencies manually, you need to make sure that it builds a _jar with dependencies_, to include both the application and the connector classes.
