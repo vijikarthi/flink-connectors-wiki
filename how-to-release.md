@@ -151,6 +151,6 @@ Once you are ready, run the following steps:
 * After ensuring the correct working of the above mentioned procedures, Please click on the _Release button_ in the top menu bar.
 * Please do Wait, until it shows up in [Maven Central](http://central.sonatype.org/pages/ossrh-guide.html#SonatypeOSSMavenRepositoryUsageGuide-9.ActivateCentralSync).
 
-## Change the Connector version.
+## Change the Connector version
 
 Once the release is done, create an issue and corresponding pull request to change the `connectorVersion` in `gradle.properties` to `X.Y.(Z+1)-SNAPSHOT` for the release branch.
