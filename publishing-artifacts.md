@@ -49,7 +49,7 @@ The `bintray` credentials are encrypted using `travis encrypt` tool and are crea
 
 We use **Sonatype -> Maven Central** repository to manage the release artifacts. Please follow [How-to-release](how-to-release.md) page to understand the complete steps required to release a Pravega/Flink connector version.
 
-Here is the gradle task that is used to publish the artifacts. Please refer the [published artifacts] (https://mvnrepository.com/artifact/io.pravega) fro more information.
+Here is the gradle task that is used to publish the artifacts. Please refer the [published artifacts](https://mvnrepository.com/artifact/io.pravega) for more information.
 
 ```
 ./gradlew clean assemble publishToRepo -PdoSigning=true -Psigning.password=<signing-password> -PpublishUrl=mavenCentral -PpublishUsername=<sonatype-username> -PpublishPassword=<sonatype-password>
