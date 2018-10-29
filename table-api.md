@@ -24,7 +24,7 @@ A Pravega Stream may be used as a table source within a Flink table program. The
 
 #### Example
 
-The following example of uses the provided table source to read JSON-formatted events from a Pravega Stream:
+The following example uses the provided table source to read JSON-formatted events from a Pravega Stream:
 
 ```java
 // Create a Flink Table environment
@@ -83,10 +83,10 @@ Note that the table source supports both the Flink **streaming** and **batch env
 |`withPravegaConfig`|The Pravega client configuration, which includes connection info, security info, and a default scope.|
 |`forStream`|The stream to be read from, with optional start and/or end position.  May be called repeatedly to read numerous streams in parallel.|
 |`uid`|The uid to identify the checkpoint state of this source.  _Applies only to streaming API._|
-|`withReaderGroupScope`|The scope to store the reader group synchronization stream into.  _Applies only to streaming API._|
-|`withReaderGroupName`|The reader group name for display purposes.  _Applies only to streaming API._|
-|`withReaderGroupRefreshTime`|The interval for synchronizing the reader group state across parallel source instances.  _Applies only to streaming API._|
-|`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the reader group state.  _Applies only to streaming API._|
+|`withReaderGroupScope`|The scope to store the Reader Group synchronization stream into.  _Applies only to streaming API._|
+|`withReaderGroupName`|The Reader Group name for display purposes.  _Applies only to streaming API._|
+|`withReaderGroupRefreshTime`|The interval for synchronizing the Reader Group state across parallel source instances.  _Applies only to streaming API._|
+|`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the Reader Group state.  _Applies only to streaming API._|
 |`withSchema`|The table schema which describes which JSON fields to expect.|
 |`withProctimeAttribute`|The name of the processing time attribute in the supplied table schema.|
 |`withRowTimeAttribute`|supply the name of the rowtime attribute in the table schema, a TimeStampExtractor instance to extract the rowtime attribute value from the event and a `WaterMarkStratergy` to generate watermarks for the rowtime attribute.|
