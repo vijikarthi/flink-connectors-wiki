@@ -63,12 +63,12 @@ A builder API is provided to construct an instance of `FlinkPravegaReader`. See 
 |`withPravegaConfig`|The Pravega client configuration, which includes connection info, security info, and a default scope.|
 |`forStream`|The stream to be read from, with optional start and/or end position.  May be called repeatedly to read numerous streams in parallel.|
 |`uid`|The uid to identify the checkpoint state of this source.|
-|`withReaderGroupScope`|The scope to store the reader group synchronization stream into.|
-|`withReaderGroupName`|The ReaderGroup name for display purposes.|
-|`withReaderGroupRefreshTime`|The interval for synchronizing the reader group state across parallel source instances.|
-|`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the reader group state.|
+|`withReaderGroupScope`|The scope to store the Reader Group synchronization stream into.|
+|`withReaderGroupName`|The Reader Group name for display purposes.|
+|`withReaderGroupRefreshTime`|The interval for synchronizing the Reader Group state across parallel source instances.|
+|`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the Reader Group state.|
 |`withDeserializationSchema`|The deserialization schema which describes how to turn byte messages into events.|
-|`enableMetrics`|true or false to enable/disable reporting Pravega reader group metrics. By default, the metrics option is enabled.|
+|`enableMetrics`|true or false to enable/disable reporting Pravega Reader Group metrics. By default, the metrics option is enabled.|
 
 ### Input Stream(s)
 Each stream in Pravega is contained by a scope.  A scope acts as a namespace for one or more streams.  The `FlinkPravegaReader` is able to read from numerous streams in parallel, even across scopes.  The builder API accepts both **qualified** and **unqualified** stream names.  
@@ -86,7 +86,7 @@ A stream may be specified in one of three ways:
 
 The `FlinkPravegaReader` supports parallelization. Use the `setParallelism` method to of `Datastream` to configure the number of parallel instances to execute.  The parallel instances consume the stream in a coordinated manner, each consuming one or more stream segments.
 
-**Note:** Coordination is achieved with the use of a Pravega ReaderGroup, which is based on a [State Synchronizer](http://pravega.io/docs/latest/pravega-concepts/#state-synchronizers). The Synchronizer creates a backing stream that may be manually deleted after the completion of the job.
+**Note:** Coordination is achieved with the use of a Pravega Reader Group, which is based on a [State Synchronizer](http://pravega.io/docs/latest/pravega-concepts/#state-synchronizers). The Synchronizer creates a backing stream that may be manually deleted after the completion of the job.
 
 ### Checkpointing
 
@@ -158,7 +158,7 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 |`withTxnLeaseRenewalPeriod`|The Transaction lease renewal period that supports the _Exactly-once_ writer mode.|
 |`withSerializationSchema`|The serialization schema which describes how to turn events into byte messages.|
 |`withEventRouter`|The router function which determines the Routing Key for a given event.|
-|`enableMetrics`|true or false to enable/disable reporting Pravega ReaderGroup metrics. By default, the metrics option is enabled.|
+|`enableMetrics`|true or false to enable/disable reporting Pravega Reader Group metrics. By default, the metrics option is enabled.|
 
 ### Parallelism
 `FlinkPravegaWriter` supports parallelization. Use the `setParallelism` method to configure the number of parallel instances to execute.
