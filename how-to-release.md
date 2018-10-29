@@ -39,13 +39,12 @@ Please note the following when performing step 3:
        > git tag vX.Y.Z-rc0
        > git push upstream vX.Y.Z-rc0
         ```
-    Ensure that our `upstream` is set up correctly.
+    Ensure that your `upstream` is set up correctly.
 
     -  **Via GitHub releases**: When creating a release candidate, Github automatically creates the tag if one doesn't exist. This is discussed in the [release candidate](#pushing-arelease-candidate) section.
 
-2. In situations, sometimes the release candidate is problematic when we do a new release candidate. Hence, this can be handled by repeating the tagging step multiple times until it is created.
+2. It is possible that a release candidate is problematic and we need to do a new release candidate. In this case, we need to repeat this tagging step as many times as needed. Note that when creating a new release candidate tag, we do not need to update the Connector version.
 
-**Note**: Do not update the Connector version, when creating a new release candidate tag.
 
 ## Major Release
 
@@ -94,23 +93,25 @@ for file in ./*.jar ; do shasum -a 1 $file > $file.sha1 ; done
 for file in ./*.jar ; do shasum -a 256 $file > $file.sha256 ; done
 ```
 
->**Note**: Generation of checksums via gradle is planned to be automated in the future releases.
+>**Note**:In the future, we might want to automate the generation of checksums via gradle.
 
 ### Step 3: Upload the files to the pre-release draft
 
-In the pre-release draft on GitHub, upload all the jar files (and its checksums) under `~/.m2/repository/io/pravega/pravega-connectors-flink_2.11/<RELEASE-VERSION>`. Follow the instructions on the page, it is straightforward.
+In the pre-release draft on GitHub, upload all the jar files (and its checksums) under `~/.m2/repository/io/pravega/pravega-connectors-flink_2.11/<RELEASE-VERSION>`. Follow the instructions on that appears on the Github release page, it is straightforward.
 
 ### Step 4: Release Notes
 
 Create a release notes text file containing the following:
 1. Related introductory text, highlighting the important changes featured in the release.
-2. A complete list of commits can be obtained using the following command:
+2. A complete list of commits and it can be obtained using the following command:
 ```
    > git log <commit-id-of-last-release>..<current-commit-id>
 ```
 
 * `<commit-id-of-last-release>` depends on the kind of release we are doing. If it is a bug fix release, then we can use the tag of the last branch release. For new branches, we have been adding `branch-X.Y` tags at the branch point for convenience.
-* `<current-commit-id>` is the commit point of the release candidate we are working on. If you have manually tagged the release candidate, then we can it in the log command above.
+* `<current-commit-id>` is the commit point of the release candidate we are working on. If you have manually tagged the release candidate, then you can go ahead and use it in the above mentioned `git log` command.
+
+
 
 Add the list to the release notes file and attach it the notes box in the release draft. See previous releases for an example of how to put together notes.
 
@@ -149,7 +150,7 @@ Once you are ready, run the following steps:
     1. Change `pravegaVersion` and `connectorVersion` in `gradle.properties` to the staging version.
     2. Run `./gradlew clean build`
 * After ensuring the correct working of the above mentioned procedures, Please click on the _Release button_ in the top menu bar.
-* Please do Wait, until it shows up in [Maven Central](http://central.sonatype.org/pages/ossrh-guide.html#SonatypeOSSMavenRepositoryUsageGuide-9.ActivateCentralSync).
+* Please do wait, until it shows up in [Maven Central](http://central.sonatype.org/pages/ossrh-guide.html#SonatypeOSSMavenRepositoryUsageGuide-9.ActivateCentralSync).
 
 ## Change the Connector version
 
