@@ -22,8 +22,8 @@ for use with the Flink Streaming API. See the below sections for details.
   - [Stream Cuts](#streamcuts)
   - [Historical Stream Processing](#historical-stream-processing)
 - [FlinkPravegaWriter](#flinkpravegawriter)
-  - [Parameters](#parameters)
-  - [Parallelism](#parallelism1)
+  - [Parameters](#parameters-1)
+  - [Parallelism](#parallelism-1)
   - [Event Routing](#event-routing)
   - [Event Time Ordering](#event-time-ordering)
   - [Writer Modes](#writer-modes)
@@ -68,7 +68,7 @@ A builder API is provided to construct an instance of `FlinkPravegaReader`. See 
 |`withReaderGroupRefreshTime`|The interval for synchronizing the Reader Group state across parallel source instances.|
 |`withCheckpointInitiateTimeout`|The timeout for executing a checkpoint of the Reader Group state.|
 |`withDeserializationSchema`|The deserialization schema which describes how to turn byte messages into events.|
-|`enableMetrics`|true or false to enable/disable reporting Pravega Reader Group metrics. By default, the metrics option is enabled.|
+|`enableMetrics`|true or false to enable/disable reporting Pravega metrics. Metrics is enabled by default.|
 
 ### Input Stream(s)
 Each stream in Pravega is contained by a scope.  A scope acts as a namespace for one or more streams.  The `FlinkPravegaReader` is able to read from numerous streams in parallel, even across scopes.  The builder API accepts both **qualified** and **unqualified** stream names.  
@@ -158,7 +158,7 @@ A builder API is provided to construct an instance of `FlinkPravegaWriter`. See 
 |`withTxnLeaseRenewalPeriod`|The Transaction lease renewal period that supports the _Exactly-once_ writer mode.|
 |`withSerializationSchema`|The serialization schema which describes how to turn events into byte messages.|
 |`withEventRouter`|The router function which determines the Routing Key for a given event.|
-|`enableMetrics`|true or false to enable/disable reporting Pravega Reader Group metrics. By default, the metrics option is enabled.|
+|`enableMetrics`|true or false to enable/disable reporting Pravega metrics. Metrics is enabled by default.|
 
 ### Parallelism
 `FlinkPravegaWriter` supports parallelization. Use the `setParallelism` method to configure the number of parallel instances to execute.
@@ -187,7 +187,7 @@ By default, the _At-least-once_ option is enabled and use `.withWriterMode(...)`
 See the [Pravega documentation](http://pravega.io/docs/latest/pravega-concepts/#transactions) for details on transactional behavior.
 
 # Metrics
-Metrics are reported by default unless it is explicitly disabled using `enableMetrics(...)` option.
+Metrics are reported by default unless it is explicitly disabled using `enableMetrics(false)` option.
 See [Metrics](metrics.md) page for more details on type of metrics that are reported._
 
 # Serialization
