@@ -52,7 +52,7 @@ DataSource<EventType> dataSet = env.createInput(inputFormat, TypeInformation.of(
 ```
 
 ### Parameters
-A builder API is provided to construct an instance of `FlinkPravegaInputFormat`.  See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties. See the [configurations](configurations) page for more information.
+A builder API is provided to construct an instance of `FlinkPravegaInputFormat`.  See the table below for a summary of builder properties.  Note that the builder accepts an instance of `PravegaConfig` for common configuration properties. See the [configurations](configurations.md) page for more information.
 
 |Method                |Description|
 |----------------------|-----------------------------------------------------------------------|
