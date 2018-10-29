@@ -8,22 +8,22 @@ You may obtain a copy of the License at
     http://www.apache.org/licenses/LICENSE-2.0
 -->
 
-The Flink connector library for Pravega supports the Flink Streaming API, Table API, and Batch API, using a common configuration class.  See the below sections for details.
+# Configurations
+The Flink connector library for Pravega supports the **Flink Streaming API**, **Table API** and **Batch API**, using a common configuration class.  
 
 ## Table of Contents
 - [Common Configuration](#common-configuration)
   - [PravegaConfig Class](#pravegaconfig-class)
   - [Creating PravegaConfig](#creating-pravegaconfig)
   - [Using PravegaConfig](#using-pravegaconfig)
-  - [Configuration Elements](#configuration-elements)
   - [Understanding the Default Scope](#understanding-the-default-scope)
 
 ## Common Configuration
 
 ### PravegaConfig Class
-A top-level config object, `PravegaConfig`, is provided to establish a Pravega context for the Flink connector.  The config object automatically configures itself from environment variables, system properties, and program arguments.
+A top-level config object, `PravegaConfig`, is provided to establish a Pravega context for the Flink connector. The config object automatically configures itself from _environment variables_, _system properties_ and _program arguments_.
 
-Here's a summary of the information sources that `PravegaConfig` uses:
+`PravegaConfig` information sources is given below:
 
 |Setting|Environment Variable /<br/>System Property /<br/>Program Argument|Default Value|
 |-------|-------------------------------------------------------------|-------------|
@@ -54,7 +54,7 @@ PravegaConfig config = PravegaConfig.fromDefaults()
 ```
 
 ### Using PravegaConfig
-All of the various source and sink classes provided with the connector library have a builder-style API which accepts a `PravegaConfig` for common configuration.  Pass a `PravegaConfig` object to the respective builder via `withPravegaConfig`.  For example:
+All of the various source and sink classes provided with the connector library have a builder-style API which accepts a `PravegaConfig` for common configuration. Pass a `PravegaConfig` object to the respective builder via `withPravegaConfig`. For example, see below code:
 ```java
 PravegaConfig config = ...;
 
@@ -66,8 +66,7 @@ FlinkPravegaReader<MyClass> pravegaSource = FlinkPravegaReader.<MyClass>builder(
 
 ### Understanding the Default Scope
 Pravega organizes streams into _scopes_ for the purposes of manageability.  The `PravegaConfig` establishes a default scope name that is used in two scenarios:
-1. For resolving unqualified stream names when constructing a source or sink.  The sources and sinks accept stream names that may be _qualified_ (e.g. `my-scope/my-stream`) or _unqualified_ (e.g. `my-stream`).
-2. For establishing the scope name for the coordination stream underlying a Pravega reader group.
+1. For resolving unqualified stream names when constructing a source or sink.  The sources and sinks accept stream names that may be **qualified** (e.g. `my-scope/my-stream`) or **unqualified** (e.g. `my-stream`).
+2. For establishing the scope name for the coordination stream underlying a Pravega Reader Group.
 
-Note that the `FlinkPravegaReader` and the `FlinkPravegaTableSource` use the default scope configured on `PravegaConfig` as their reader group scope, and provide `withReaderGroupScope` as an override.  The scope name of input stream(s) doesn't influence the reader group scope.
-
+It is important to note that, the `FlinkPravegaReader` and the `FlinkPravegaTableSource` use the default scope configured on `PravegaConfig` as their Reader Group scope, and provide `withReaderGroupScope` as an override. The scope name of input stream(s) doesn't influence the Reader Group scope.
