@@ -30,7 +30,7 @@ Metric Name                |Description|
 
 For `FlinkPravegaWriter` related operations, only the stream name is exposed:
 
-Metric Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 |Description|
+Metric Name                 |Description|
 |-----------------|-----------------------------------------------------------------------|
 |`streams`       |The streams that are part of the Reader Group will be listed as comma separated values. The stream name will be a fully qualified name i.e., `scope/stream`|
 
