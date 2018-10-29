@@ -80,7 +80,7 @@ If stream cuts are not provided then the default start position requested is ass
 ### Parallelism
 `FlinkPravegaInputFormat` supports parallelization. Use the `setParallelism` method of `DataSet` to configure the number of parallel instances to execute.  The parallel instances consume the stream in a coordinated manner, each consuming one or more stream segments.
 
-**Note**: Coordination is achieved with the use of a Pravega reader group, which is based on a [State Synchronizer](http://pravega.io/docs/latest/state-synchronizer-design/). The synchronizer creates a backing stream that may be manually deleted after the job finishes.
+**Note**: Coordination is achieved with the use of a Pravega Reader Group, which is based on a [State Synchronizer](http://pravega.io/docs/latest/state-synchronizer-design/). The synchronizer creates a backing stream that may be manually deleted after the job finishes.
 
 
 ## FlinkPravegaOutputFormat
