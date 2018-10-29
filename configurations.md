@@ -67,6 +67,6 @@ FlinkPravegaReader<MyClass> pravegaSource = FlinkPravegaReader.<MyClass>builder(
 ### Understanding the Default Scope
 Pravega organizes streams into _scopes_ for the purposes of manageability.  The `PravegaConfig` establishes a default scope name that is used in two scenarios:
 1. For resolving unqualified stream names when constructing a source or sink.  The sources and sinks accept stream names that may be **qualified** (e.g. `my-scope/my-stream`) or **unqualified** (e.g. `my-stream`).
-2. For establishing the scope name for the coordination stream underlying a Pravega ReaderGroup.
+2. For establishing the scope name for the coordination stream underlying a Pravega Reader Group.
 
-It is important to note that, the `FlinkPravegaReader` and the `FlinkPravegaTableSource` use the default scope configured on `PravegaConfig` as their ReaderGroup scope, and provide `withReaderGroupScope` as an override. The scope name of input stream(s) doesn't influence the ReaderGroup scope.
+It is important to note that, the `FlinkPravegaReader` and the `FlinkPravegaTableSource` use the default scope configured on `PravegaConfig` as their Reader Group scope, and provide `withReaderGroupScope` as an override. The scope name of input stream(s) doesn't influence the Reader Group scope.
