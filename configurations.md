@@ -16,7 +16,6 @@ The Flink connector library for Pravega supports the **Flink Streaming API**, **
   - [PravegaConfig Class](#pravegaconfig-class)
   - [Creating PravegaConfig](#creating-pravegaconfig)
   - [Using PravegaConfig](#using-pravegaconfig)
-  - [Configuration Elements](#configuration-elements)
   - [Understanding the Default Scope](#understanding-the-default-scope)
 
 ## Common Configuration
