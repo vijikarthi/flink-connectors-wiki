@@ -10,7 +10,8 @@ You may obtain a copy of the License at
 
 # Metrics
 
-Pravega metrics are collected and exposed to Flink metrics framework when using `FlinkPravegaReader` or `FlinkPravegaWriter` instances to perform read and write operations on Pravega Streams.
+Pravega metrics are collected and exposed via Flink metrics while performing read and write operations on Pravega stream using [`FlinkPravegaReader`](streaming.md#flinkpravegareader) or [`FlinkPravegaWriter`](streaming.md#flinkpravegawriter).
+
 
 ## Reader Metrics
 
@@ -18,9 +19,9 @@ The following metrics are exposed and made available as Flink metrics for `Flink
 
 Metric Name                |Description|
 |-----------------|-----------------------------------------------------------------------|
-|`readerGroupName`|The name of the ReaderGroup.|
-|`scope`|The scope name of the ReaderGroup.|
-|`streams`|The streams that are part of the ReaderGroup. The stream name will be a fully qualified name i.e., `scope/stream`|
+|`readerGroupName`|The name of the Reader Group.|
+|`scope`|The scope name of the Reader Group.|
+|`streams`|The streams that are part of the Reader Group will be listed as comma separated values. The stream name will be a fully qualified name i.e., `scope/stream`|
 |`onlineReaders`|The readers from the reader group that are currently online/available.|
 |`segmentPositions`|The `StreamCut` information that indicates where the readers have read so far.|
 |`unreadBytes`|The total number of bytes that have not been read yet.|
@@ -31,23 +32,23 @@ For `FlinkPravegaWriter` related operations, only the stream name is exposed:
 
 Metric Name                 |Description|
 |-----------------|-----------------------------------------------------------------------|
-|`streams`  |The streams that are part of the ReaderGroup. The stream name will be a fully qualified name i.e., `scope/stream`|
+|`streams`        |The streams that are part of the Reader Group will be listed as comma separated values. The stream name will be a fully qualified name i.e., `scope/stream`|
 
 ## Querying Metrics
 
 The metrics can be viewed either from Flink UI or using the Flink `REST` API, see below:
 
 ```java
-curl -i -s -f <FLINK-HOST:PORT>/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.readerGroupName
+curl -i -s -f <FLINK-HOST:PORT>/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-OPERATOR-NAME>.PravegaReader.readerGroup.readerGroupName
 
-curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.scope
+curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-OPERATOR-NAME>.PravegaReader.readerGroup.scope
 
-curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.streams
+curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-OPERATOR-NAME>.PravegaReader.readerGroup.streams
 
-curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.onlineReaders
+curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-OPERATOR-NAME>.PravegaReader.readerGroup.onlineReaders
 
-curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.stream.test.segmentPositions
+curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-OPERATOR-NAME>.PravegaReader.readerGroup.stream.test.segmentPositions
 
-curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-READER-NAME>.PravegaReader.readerGroup.unreadBytes
+curl -i -s -f localhost:1028/jobs/<JOB-ID>/vertices/<SOURCE-TASK-ID>/metrics?get=0.Source__<SOURCE-OPERATOR-NAME>.PravegaReader.readerGroup.unreadBytes
 
 ```
