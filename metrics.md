@@ -32,7 +32,7 @@ For `FlinkPravegaWriter` related operations, only the stream name is exposed:
 
 Name                |Description|
 |-----------------|-----------------------------------------------------------------------|
-|`streams`        |The stream name will be a fully qualified name i.e., `scope/stream`|
+|`streams`        |The fully qualified name of the stream i.e., `scope/stream`|
 
 ## Querying Metrics
 
