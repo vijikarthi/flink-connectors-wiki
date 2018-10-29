@@ -9,40 +9,40 @@ You may obtain a copy of the License at
 -->
 # Pravega Flink Connectors [![Build Status](https://travis-ci.org/pravega/flink-connectors.svg?branch=master)](https://travis-ci.org/pravega/flink-connectors)
 
-Connectors to read and write [Pravega](http://pravega.io/) streams with [Apache Flink](http://flink.apache.org/) stream processing framework.
+Connectors to read and write [Pravega](http://pravega.io/) Streams with [Apache Flink](http://flink.apache.org/) stream processing framework.
 
 Build end-to-end stream processing pipelines that use Pravega as the stream storage and message bus, and Apache Flink for computation over the streams.
 
 
 ## Features & Highlights
 
-  - **Exactly-once processing guarantees** for both reader and writer, supporting **end-to-end exactly-once processing pipelines**
+  - **Exactly-once processing guarantees** for both Reader and Writer, supporting **end-to-end exactly-once processing pipelines**
 
-  - Seamless integration with Flink's checkpoints & savepoints
+  - Seamless integration with Flink's checkpoints and savepoints.
 
-  - Parallel readers and writers supporting high throughput and low latency processing
-  
-  - Table API support to access Pravega streams for both batch and streaming use case
+  - Parallel Readers and Writers supporting high throughput and low latency processing.
+
+  - Table API support to access Pravega Streams for both **Batch** and **Streaming** use case.
 
 ## Building Connectors
 
-Building the connectors from source is only necessary when you want to use or contribute to the latest (not yet released) version of the Pravega Flink connectors.
+Building the connectors from the source is only necessary when we want to use or contribute to the latest (*unreleased*) version of the Pravega Flink connectors.
 
 The connector project is linked to a specific version of Pravega, based on a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) pointing to a commit-id. By default the sub-module option is disabled and the build step will make use of the Pravega version defined in the `gradle.properties` file. You could override this option by enabling `usePravegaVersionSubModule` flag in `gradle.properties` to `true`.
 
-Checkout the source code repository by following below steps. 
+Checkout the source code repository by following below steps:
 
 ```
 git clone --recursive https://github.com/pravega/flink-connectors.git
 ```
 
-After cloning the repository, the project can be build by running the below command the project root directory `flink-connectors`.
+After cloning the repository, the project can be built by running the below command in the project root directory `flink-connectors`.
 
 ```
 ./gradlew clean build
 ```
 
-To install the artifacts in the local maven repository cache `~/.m2/repository`, run the following command
+To install the artifacts in the local maven repository cache `~/.m2/repository`, run the following command:
 
 ```
 ./gradlew clean install
@@ -52,33 +52,34 @@ To install the artifacts in the local maven repository cache `~/.m2/repository`,
 
 #### Building against a custom Flink version
 
-You can check and change the Flink version that Pravega builds against via the `flinkVersion` variable in the `gradle.properties` file.
-Note that you can only choose Flink versions that are compatible with the latest connector code.
+We can check and change the Flink version that Pravega builds against via the `flinkVersion` variable in the `gradle.properties` file.
+
+**Note**: Only Flink versions that are compatible with the latest connector code can be chosen.
 
 #### Building against another Scala version
 
 This section is only relevant if you use [Scala](https://www.scala-lang.org/) in the stream processing application in with Flink and Pravega.
 
-Parts of the Apache Flink use the language or depend on libraries written in Scala. Because Scala is not strictly compatible across versions, there exist different versions of Flink compiled for different Scala versions.
-If you use Scala code in the same application where you use the Apache Flink or the Flink connectors, you typically have to make sure you use a version of Flink that uses the same Scala version as your application.
+Parts of the Apache Flink use the language or depend on libraries written in Scala. Because Scala is **not** strictly compatible across versions, there exist different versions of Flink compiled for different Scala versions.
+If we use Scala code in the same application where we use the Apache Flink or the Flink connectors, we typically have to make sure we use a version of Flink that uses the same Scala version as our application.
 
 By default, the dependencies point to Flink for Scala **2.11**.
-To depend on released Flink artifacts for a different Scala version, you need to edit the `build.gradle` file and change all entries for the Flink dependencies to have a different Scala version suffix. For example, `flink-streaming-java_2.11` would be replaced by `flink-streaming-java_2.12` for Scala 2.12.
+To depend on released Flink artifacts for a different Scala version, you need to edit the `build.gradle` file and change all entries for the Flink dependencies to have a different Scala version suffix. For example, `flink-streaming-java_2.11` would be replaced by `flink-streaming-java_2.12` for Scala **2.12**.
 
 In order to build a new version of Flink for a different Scala version, please refer to the [Flink documentation](https://ci.apache.org/projects/flink/flink-docs-stable/start/building.html#scala-versions).
 
 ## Setting up your IDE
 
-Connector project uses [Project Lombok](https://projectlombok.org/) so you should ensure you have your IDE setup with the required plugins. Using IntelliJ is recommended.
+Connector project uses [Project Lombok](https://projectlombok.org/), so we should ensure that we have our IDE setup with the required plugins. (**IntelliJ is recommended**).
 
 To import the source into IntelliJ:
 
 1. Import the project directory into IntelliJ IDE. It will automatically detect the gradle project and import things correctly.
-2. Enable `Annotation Processing` by going to `Build, Execution, Deployment` -> `Compiler` > `Annotation Processors` and checking 'Enable annotation processing'.
+2. Enable `Annotation Processing` by going to `Build, Execution, Deployment` -> `Compiler` > `Annotation Processors` and checking `Enable annotation processing`.
 3. Install the `Lombok Plugin`. This can be found in `Preferences` -> `Plugins`. Restart your IDE.
-4. Connectors project should now compile properly.
+4. Connectors project compiles properly after applying the above steps.
 
-For eclipse, you can generate eclipse project files by running `./gradlew eclipse`.
+For eclipse, we can generate eclipse project files by running `./gradlew eclipse`.
 
 ## Releases
 
@@ -86,12 +87,12 @@ The latest releases can be found on the [Github Release](https://github.com/prav
 
 ## Support
 
-Don’t hesitate to ask! Contact the developers and community on the [mailing lists](https://groups.google.com/forum/#!forum/pravega-users) or on [slack](https://pravega-io.slack.com/) if you need any help.
+Don’t hesitate to ask! Contact the developers and community on the  [Slack](https://pravega-io.slack.com/) if you need any help.
 Open an issue if you found a bug on [Github
 Issues](https://github.com/pravega/flink-connectors/issues).
 
 ## Documentation
-See the [Project Wiki](https://github.com/pravega/flink-connectors/wiki) for documentation on how to build and use the Flink Connector library. 
+See the [Project Wiki](https://github.com/pravega/flink-connectors/wiki) for documentation on how to build and use the Flink Connector library.
 
 More examples on how to use the connectors with Flink application can be found in [Pravega Samples](https://github.com/pravega/pravega-samples) repository.
 
