@@ -16,7 +16,7 @@ Build end-to-end stream processing pipelines that use Pravega as the stream stor
 ## Table of Contents
 
 - [Quick Start](quickstart.md)
-- [Features](features.md)
+- Features
 	- [Streaming](streaming.md)
 	- [Batch](batch.md)
 	- [Table API/SQL](table-api.md)
